@@ -65,6 +65,14 @@ Senha: (indefinida)
 
 
 
+---
+
+
+
+## Video testando         (**Projeto em andamento**)
+Colocar no 1.5x
+
+https://github.com/user-attachments/assets/934ed0ff-b576-49f3-ac0f-c755cf8f07f8
 
 
 
