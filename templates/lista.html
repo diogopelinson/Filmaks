@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+{% block conteudo %}
+      <table class="table table-striped table-responsive table-bordered">
+         <thead class="thead-default">
+            <tr>
+               <th>Nome</th>
+               <th>Gênero</th>
+               <th>Plataforma</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for filme in filmes %}
+           <tr>
+              <td>{{ filme.nome }}</td>
+              <td>{{ filme.genero }}</td>
+              <td>{{ filme.plataforma }}</td>
+           </tr>
+           {% endfor %}
+
+        </tbody>
+     </table>
+{% endblock %}
