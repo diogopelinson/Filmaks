@@ -20,7 +20,7 @@ Este é um projeto web simples feito com **Flask**, que permite listar, adiciona
 - Python 
 - Flask
 - HTML (Jinja2 templates)
-- BootStrap
+- BootStrap 
 
 ---
 
