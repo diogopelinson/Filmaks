@@ -7,7 +7,7 @@ class Filme:
         self.plataforma = plataforma
 
 #Lista de Filmes
-filme1 = Filme('Titanic', 'Romance', 'Disney+')
+filme1 = Filme('Titanic', 'Romance', 'Disney+') 
 filme2 = Filme('Interestelar', 'Ficção científica', 'Max')
 filme3 = Filme('Ilha do medo', 'Suspense', 'Prime Video')
 lista = [filme1, filme2, filme3]
