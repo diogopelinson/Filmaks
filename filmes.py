@@ -1,39 +1,45 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-
-class Filme:
-    def __init__(self, nome, genero, plataforma):
-        self.nome = nome
-        self.genero = genero
-        self.plataforma = plataforma
-
-#Lista de Filmes
-filme1 = Filme('Titanic', 'Romance', 'Disney+') 
-filme2 = Filme('Interestelar', 'Ficção científica', 'Max')
-filme3 = Filme('Ilha do medo', 'Suspense', 'Prime Video')
-lista = [filme1, filme2, filme3]
-
-class Usuario:
-    def __init__(self, nome, nickname, senha):
-        self.nome = nome
-        self.nickname = nickname
-        self.senha = senha
-
-usuario1 = Usuario('Diogo Pelinson', 'Dxygo', 'lydon')
-usuario2 = Usuario('Mariana Soliguetti', 'Marisoli', 'riva')
-usuario3 = Usuario('Adriana Duarte', 'Dridu', 'python')
-
-#Dicionario dos usuarios
-usuarios = { 
-    usuario1.nickname : usuario1,
-    usuario2.nickname : usuario2,
-    usuario3.nickname : usuario3,
-}
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'cassics'
 
+# CONEXÃO COM O BANCO DE DADOS (MYSQL)
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
+        SGBD = 'mysql+mysqlconnector',
+        usuario = 'root',
+        senha = 'admin',
+        servidor = 'localhost',
+        database = 'filmaks'
+    )
+
+db = SQLAlchemy(app)
+
+#CRIACÃO DAS CLASSES DO DB
+class Filmes(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(50), nullable=False)
+    genero = db.Column(db.String(40), nullable=False)
+    plataforma = db.Column(db.String(20), nullable=False)
+
+    def __repr__(self):
+        return '<name %r>' % self.name
+    
+
+class Usuarios(db.Model):
+    nickname = db.Column(db.String(8), primary_key=True)
+    nome = db.Column(db.String(20), nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return '<name %r>' % self.name
+    
+
+#CRIACÃO DAS ROTAS
 @app.route('/')
 def index():
+    lista = Filmes.query.order_by(Filmes.id)
     return render_template('lista.html', titulo='Filmes', filmes=lista )
 
 @app.route('/novo')
@@ -48,9 +54,17 @@ def criar():
     nome = request.form['nome']
     genero = request.form['genero']
     plataforma = request.form['plataforma']
-    filme = Filme(nome, genero, plataforma)
-    lista.append(filme)
-    #função que instancia a pagina principal
+
+    filme = Filmes.query.filter_by(nome=nome).first()
+    
+    if filme:
+        flash('Filme já existente!')
+        return redirect(url_for('index'))
+    
+    novo_filme = Filmes(nome=nome, genero=genero, plataforma=plataforma)
+    db.session.add(novo_filme)
+    db.session.commit()
+
     return redirect(url_for('index'))
 
 @app.route('/login')
@@ -62,8 +76,8 @@ def login():
 #Login 
 @app.route('/autenticar', methods=['POST',])
 def autenticar():
-    if request.form['usuario'] in usuarios:
-        usuario = usuarios[request.form['usuario']]
+    usuario = Usuarios.query.filter_by(nickname=request.form['usuario']).first()
+    if usuario:
         if request.form['senha'] == usuario.senha:
             session['usuario_logado'] = usuario.nickname
             flash(usuario.nickname + ' logado com sucesso!')
