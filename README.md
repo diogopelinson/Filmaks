@@ -24,6 +24,7 @@ Sistema web desenvolvido com **Python**, **Flask** e **MySQL**, com funcionalida
 - Flask-WTF
 - Flask-Bcrypt
 - Jinja2
+- Jquery
 - Bootstrap
 
 
@@ -76,3 +77,11 @@ Sistema web desenvolvido com **Python**, **Flask** e **MySQL**, com funcionalida
 Desenvolvido por **Diogo Pelinson**  
 📧 Email: [diogopelinsonduartemoraes@gmail.com](mailto:diogopelinsonduartemoraes@gmail.com)
 
+
+---
+
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=python,flask,mysql,bootstrap,html,js,jquery" />
+  </a>
+</p>
