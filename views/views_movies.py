@@ -1,8 +1,10 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from filmes import app, db
-from models import Filmes, Usuarios
-from helpers import recupera_imagem, deleta_arquivo, FormularioFilme, FormularioUsuario
+from database.models import Filmes
+from helpers.helpers import recupera_imagem, deleta_arquivo, FormularioFilme
+from helpers.config_img import UPLOAD_PATH
 import time
+import os
 
 #CRIACÃO DAS ROTAS
 
@@ -29,11 +31,9 @@ def editar(id):
 #Atualizar Filme 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
-
     form = FormularioFilme(request.form)
 
     if form.validate_on_submit():
-
         filme = Filmes.query.filter_by(id=request.form['id']).first()
         filme.nome = form.nome.data
         filme.genero = form.genero.data
@@ -42,11 +42,13 @@ def atualizar():
         db.session.add(filme)
         db.session.commit()
 
-        arquivo = request.files['arquivo']
-        upload_path = app.config['UPLOAD_PATH']
+    arquivo = request.files['arquivo']
+    if arquivo:
         timestamp = time.time()
         deleta_arquivo(filme.id)
-        arquivo.save(f'{upload_path}/capa{filme.id}-{timestamp}.jpg')
+        nome_arquivo = f'capa{filme.id}-{timestamp}.jpg'
+        caminho_arquivo = os.path.join(UPLOAD_PATH, nome_arquivo)
+        arquivo.save(caminho_arquivo)
 
     return redirect(url_for('index'))
 
@@ -72,7 +74,8 @@ def novo():
     form = FormularioFilme()
     return render_template('novo.html', titulo='Novo Filme', form=form)
 
-#Criar Filme
+
+# Criar Filme
 @app.route('/criar', methods=['POST',])
 def criar():
     form = FormularioFilme(request.form)
@@ -86,55 +89,29 @@ def criar():
     genero = form.genero.data
     plataforma = form.plataforma.data
 
+  
     filme = Filmes.query.filter_by(nome=nome).first()
-    
+
     if filme:
         flash('Filme já existente!')
         return redirect(url_for('index'))
-    
+
+   
     novo_filme = Filmes(nome=nome, genero=genero, plataforma=plataforma)
     db.session.add(novo_filme)
     db.session.commit()
 
-    arquivo = request.files['arquivo']
-    upload_path = app.config['UPLOAD_PATH']
-    timestamp = time.time()
-    arquivo.save(f'{upload_path}/capa{novo_filme.id}-{timestamp}.jpg')
+
+    if 'arquivo' in request.files:
+        arquivo = request.files['arquivo']
+        timestamp = time.time()
+
+        nome_arquivo = f'capa{novo_filme.id}-{timestamp}.jpg'
+
+        arquivo.save(os.path.join(UPLOAD_PATH, nome_arquivo))
 
     return redirect(url_for('index'))
 
-#Login
-@app.route('/login')
-def login():
-    proxima = request.args.get('proxima')
-    form = FormularioUsuario()
-    return render_template('login.html', proxima=proxima, form=form)
-
-#Autenticar 
-@app.route('/autenticar', methods=['POST',])
-def autenticar():
-    form = FormularioUsuario(request.form)
-    usuario = Usuarios.query.filter_by(nickname=form.nickname.data).first()
-    if usuario:
-        if form.senha.data == usuario.senha:
-            session['usuario_logado'] = usuario.nickname
-            flash(usuario.nickname + ' logado com sucesso!')
-            proxima_pagina = request.form['proxima']
-            return redirect(proxima_pagina)
-        else:
-            flash('Senha incorreta!')
-            return redirect(url_for('login'))
-    else:
-        flash('Usuário não encontrado!')
-        return redirect(url_for('login'))
-    
-    
-#Logout
-@app.route('/logout')
-def logout():
-    session['usuario_logado'] = None
-    flash('Logout efetuado com sucesso!')
-    return redirect(url_for('index'))
 
 
 #Imagem Capa Padrão

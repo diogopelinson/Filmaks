@@ -45,7 +45,7 @@ td {
     text-align: center;
 }
 
-.formularioJogo {
+.formularioFilme {
     display: flex;
 }
 
@@ -61,7 +61,7 @@ td {
     width: 700px;
 }
 
-.inputsJogo {
+.inputsFilme {
     width: 100%;
     margin-left: 1em;
     margin-bottom: 1em;
