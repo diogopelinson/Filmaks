@@ -19,6 +19,8 @@ Sistema web desenvolvido com **Python**, **Flask** e **MySQL**, com funcionalida
 
 - Python
 - Flask
+- Request
+- Render Template
 - MySQL
 - SQLAlchemy
 - Flask-WTF
