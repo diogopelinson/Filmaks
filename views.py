@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from filmes import app, db
 from models import Filmes, Usuarios
-from helpers import recupera_imagem, deleta_arquivo
+from helpers import recupera_imagem, deleta_arquivo, FormularioFilme, FormularioUsuario
 import time
 
 #CRIACÃO DAS ROTAS
@@ -19,25 +19,34 @@ def editar(id):
         #queryString
         return redirect (url_for('login', proxima=url_for('editar')))
     filme = Filmes.query.filter_by(id=id).first()
+    form = FormularioFilme()
+    form.nome.data = filme.nome
+    form.genero.data = filme.genero
+    form.plataforma.data = filme.plataforma
     capa_filme = recupera_imagem(id)
-    return render_template('editar.html', titulo='Editando Filme', filme=filme, capa_filme=capa_filme)
+    return render_template('editar.html', titulo='Editando Filme', id=id, capa_filme=capa_filme, form=form)
 
 #Atualizar Filme 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
-    filme = Filmes.query.filter_by(id=request.form['id']).first()
-    filme.nome = request.form['nome']
-    filme.genero = request.form['genero']
-    filme.plataforma = request.form['plataforma']
-    
-    db.session.add(filme)
-    db.session.commit()
 
-    arquivo = request.files['arquivo']
-    upload_path = app.config['UPLOAD_PATH']
-    timestamp = time.time()
-    deleta_arquivo(filme.id)
-    arquivo.save(f'{upload_path}/capa{filme.id}-{timestamp}.jpg')
+    form = FormularioFilme(request.form)
+
+    if form.validate_on_submit():
+
+        filme = Filmes.query.filter_by(id=request.form['id']).first()
+        filme.nome = form.nome.data
+        filme.genero = form.genero.data
+        filme.plataforma = form.plataforma.data
+        
+        db.session.add(filme)
+        db.session.commit()
+
+        arquivo = request.files['arquivo']
+        upload_path = app.config['UPLOAD_PATH']
+        timestamp = time.time()
+        deleta_arquivo(filme.id)
+        arquivo.save(f'{upload_path}/capa{filme.id}-{timestamp}.jpg')
 
     return redirect(url_for('index'))
 
@@ -59,16 +68,23 @@ def deletar(id):
 @app.route('/novo')
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
-        #queryString
         return redirect (url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo Filme')
+    form = FormularioFilme()
+    return render_template('novo.html', titulo='Novo Filme', form=form)
 
 #Criar Filme
 @app.route('/criar', methods=['POST',])
 def criar():
-    nome = request.form['nome']
-    genero = request.form['genero']
-    plataforma = request.form['plataforma']
+    form = FormularioFilme(request.form)
+
+    if not form.validate_on_submit():
+        flash('Erro na validação do formulário.')
+        return redirect(url_for('novo'))
+
+    flash('Formulário enviado corretamente!')
+    nome = form.nome.data
+    genero = form.genero.data
+    plataforma = form.plataforma.data
 
     filme = Filmes.query.filter_by(nome=nome).first()
     
@@ -90,22 +106,26 @@ def criar():
 #Login
 @app.route('/login')
 def login():
-    #complemento da queryString
     proxima = request.args.get('proxima')
-    return render_template('login.html', proxima=proxima)
+    form = FormularioUsuario()
+    return render_template('login.html', proxima=proxima, form=form)
 
 #Autenticar 
 @app.route('/autenticar', methods=['POST',])
 def autenticar():
-    usuario = Usuarios.query.filter_by(nickname=request.form['usuario']).first()
+    form = FormularioUsuario(request.form)
+    usuario = Usuarios.query.filter_by(nickname=form.nickname.data).first()
     if usuario:
-        if request.form['senha'] == usuario.senha:
+        if form.senha.data == usuario.senha:
             session['usuario_logado'] = usuario.nickname
             flash(usuario.nickname + ' logado com sucesso!')
             proxima_pagina = request.form['proxima']
             return redirect(proxima_pagina)
+        else:
+            flash('Senha incorreta!')
+            return redirect(url_for('login'))
     else:
-        flash('Usuário não logado!')
+        flash('Usuário não encontrado!')
         return redirect(url_for('login'))
     
     

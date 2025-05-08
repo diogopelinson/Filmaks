@@ -24,6 +24,7 @@ cursor.execute("USE `filmaks`;")
 TABLES = {}
 TABLES['Filmes'] = ('''
     CREATE TABLE `filmes` (
+                    
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `nome` varchar(50) NOT NULL,
     `genero` varchar(40) NOT NULL,
