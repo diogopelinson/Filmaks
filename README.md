@@ -1,81 +1,66 @@
-# 🎬 Sistema de Filmes - Flask App
+# 🎬 Sistema de Filmes
 
-Este é um projeto web simples feito com **Flask**, que permite listar, adicionar e visualizar informações de filmes, além de incluir uma autenticação básica de usuário.  
-
-> ⚠️ **Projeto em andamento** – ainda está em desenvolvimento, novas funcionalidades serão adicionadas em breve.
+Sistema web desenvolvido com **Python**, **Flask** e **MySQL** com funcionalidades completas para cadastro, edição e exibição de filmes, incluindo autenticação de usuários e upload de imagens de capa.
 
 ---
 
-## 🔧 Funcionalidades atuais
+## ✅ Funcionalidades
 
-- Visualizar uma lista de filmes com nome, gênero e plataforma de streaming
-- Adicionar novos filmes via formulário
-- Sistema de login simples com autenticação por senha fixa
-- Feedbacks com `flash messages`
+- Cadastro e listagem de filmes (nome, gênero, plataforma)
+- Upload e alteração da capa do filme
+- Edição e exclusão de filmes
+- Sistema de login e logout com validação
+- Mensagens de feedback usando Flask Flash
+- Templates com Jinja2 e estilização com Bootstrap
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🛠️ Tecnologias
 
 - Python 
 - Flask
-- HTML (Jinja2 templates)
-- BootStrap 
+- MySQL
+- SQLAlchemy
+- Flask-WTF
+- Flask-Bcrypt
+- Jinja2
+- Bootstrap 
 
 ---
 
-## 🛠️ Como executar
+## 🚀 Como rodar
 
-1.  Clone o repositório:
-   
-- git clone 
+1. Clone o repositório:
+git clone ....
+cd ...
 
-- cd nome-do-repositorio
+2. Ative o ambiente virtual já existente:
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
 
-- Crie um ambiente virtual (venv);
+3. Instale as dependências:
+pip install -r requirements.txt
 
----
-
-2.  Instale as dependências:
-
-- pip install flask 
-
----
-
-3.  Execute a aplicação
-
-- python app.py
+4. Execute a aplicação:
+python filmes.py
 
 ---
 
-## 🔒 Login de Teste
+**👤 Login de Teste**
 
-Usuário: qualquer nome
+Usuário	| Senha
 
-Senha: (indefinida)
+Dxygo	  |   lydon
 
+Marisoli	 |  riva
 
-
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=python,flask,html,bootstrap" />
-  </a>
-</p>
-
-
-
+Dridu	  |   python
 
 ---
 
+✉️ Contato
 
+Desenvolvido por Diogo Pelinson
 
-## Video testando         (**Projeto em andamento**)
-Colocar no 1.5x
-
-https://github.com/user-attachments/assets/934ed0ff-b576-49f3-ac0f-c755cf8f07f8
-
-
-
-
-
+Email: diogopelinsonduartemoraes@gmail.com
 
