@@ -47,7 +47,7 @@ Sistema web desenvolvido com **Python**, **Flask** e **MySQL**, com funcionalida
 3. Ative o ambiente virtual já existente:
     ```bash
     source venv/bin/activate  # Linux/macOS
-    venv\Scripts\activate     # Windows
+    cd venv\Scripts\activate     # Windows
     ```
 
 4. Instale as dependências:
