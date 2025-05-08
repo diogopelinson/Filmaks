@@ -1,6 +1,6 @@
 # 🎬 Sistema de Filmes
 
-Sistema web desenvolvido com **Python**, **Flask** e **MySQL** com funcionalidades completas para cadastro, edição e exibição de filmes, incluindo autenticação de usuários e upload de imagens de capa.
+Sistema web desenvolvido com **Python**, **Flask** e **MySQL**, com funcionalidades completas para cadastro, criação de filmes, edição e exibição de filmes, incluindo autenticação de usuários e upload de imagens de capa.
 
 ---
 
@@ -17,50 +17,62 @@ Sistema web desenvolvido com **Python**, **Flask** e **MySQL** com funcionalidad
 
 ## 🛠️ Tecnologias
 
-- Python 
+- Python
 - Flask
 - MySQL
 - SQLAlchemy
 - Flask-WTF
 - Flask-Bcrypt
 - Jinja2
-- Bootstrap 
+- Bootstrap
+
 
 ---
 
 ## 🚀 Como rodar
 
+# Instruções para rodar o projeto
+
 1. Clone o repositório:
-git clone ....
-cd ...
+    ```bash
+    git clone https://github.com/diogopelinson/Filmaks.git
+    ```
 
-2. Ative o ambiente virtual já existente:
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
+2. Acesse a pasta do projeto:
+    ```bash
+    cd Filmaks
+    ```
 
-3. Instale as dependências:
-pip install -r requirements.txt
+3. Ative o ambiente virtual já existente:
+    ```bash
+    source venv/bin/activate  # Linux/macOS
+    venv\Scripts\activate     # Windows
+    ```
 
-4. Execute a aplicação:
-python filmes.py
+4. Instale as dependências:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5. Execute a aplicação:
+    ```bash
+    python filmes.py
+    ```
 
 ---
 
 **👤 Login de Teste**
 
-Usuário	| Senha
-
-Dxygo	  |   lydon
-
-Marisoli	 |  riva
-
-Dridu	  |   python
+| Usuário  | Senha   |
+|----------|---------|
+| Dxygo    | lydon   |
+| Marisoli | riva    |
+| Dridu    | python  |
 
 ---
 
-✉️ Contato
+## ✉️ Contato
 
-Desenvolvido por Diogo Pelinson
-
-Email: diogopelinsonduartemoraes@gmail.com
+Desenvolvido por **Diogo Pelinson**  
+📧 Email: [diogopelinsonduartemoraes@gmail.com](mailto:diogopelinsonduartemoraes@gmail.com)
 
